@@ -27,7 +27,7 @@ namespace BusinessLayer.Mapper
             CreateMap<BuildingFeatureListViewModel, BuildingFeature>().ReverseMap();
            CreateMap<BuildingFeatureViewModel, BuildingFeatureListViewModel>().ReverseMap();
             CreateMap<Building, BuildingViewModel>().ReverseMap();
-
+            CreateMap<Building, BuildingShowViewModel>().ReverseMap();
             CreateMap<RoadFeatureViewModel, RoadFeature>().ReverseMap();
             CreateMap<RoadFeatureListViewModel, RoadFeature>().ReverseMap();
             CreateMap<RoadFeatureViewModel, RoadFeatureListViewModel>().ReverseMap();

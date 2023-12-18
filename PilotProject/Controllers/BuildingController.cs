@@ -115,7 +115,8 @@ namespace PilotProject.Controllers
 
             string querry = "SELECT  \"Id\", ST_AsGeoJSON(\"geometry\") ::geometry as \"geometry\" FROM \"Buildings\" where \"Id\"='" + id + "' \r\n";
 
-            var a = _abstractDapperRepository.GetAllItems(querry);
+            var result = _abstractDapperRepository.GetItem(querry);
+           BuildingShowViewModel building = _mapper.Map<BuildingShowViewModel>(result);
 
             var opt = new JsonSerializerOptions
             {
@@ -124,7 +125,7 @@ namespace PilotProject.Controllers
                    new  NetTopologySuite.IO.Converters.GeoJsonConverterFactory()
                }
             };
-            string jsonString = System.Text.Json.JsonSerializer.Serialize(a, opt);
+            string jsonString = System.Text.Json.JsonSerializer.Serialize(building, opt);
             return Ok(jsonString);
         }
         [HttpGet]
@@ -135,6 +136,8 @@ namespace PilotProject.Controllers
 
             var result = _abstractDapperRepository.GetAllItems(querry);
 
+
+            List<BuildingShowViewModel> buildings = _mapper.Map<List<BuildingShowViewModel>>(result);
             var opt = new JsonSerializerOptions
             {
                 Converters =
@@ -142,7 +145,7 @@ namespace PilotProject.Controllers
                    new  NetTopologySuite.IO.Converters.GeoJsonConverterFactory()
                }
             };
-            string jsonString = System.Text.Json.JsonSerializer.Serialize(result, opt);
+            string jsonString = System.Text.Json.JsonSerializer.Serialize(buildings, opt);
 
 
 
