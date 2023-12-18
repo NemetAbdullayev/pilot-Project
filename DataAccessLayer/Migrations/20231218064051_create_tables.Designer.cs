@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20231218040040_create_tables")]
+    [Migration("20231218064051_create_tables")]
     partial class create_tables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

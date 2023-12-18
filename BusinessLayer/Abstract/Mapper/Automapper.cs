@@ -22,7 +22,7 @@ namespace BusinessLayer.Mapper
             CreateMap<PoiFeatureListViewModel, PoiFeature>().ReverseMap();
             CreateMap<PoiFeatureViewModel, PoiFeatureListViewModel>().ReverseMap();
             CreateMap<PoiFeature, PoiFeatureViewModel>().ReverseMap();
-
+            CreateMap<PoiShowViewModel, Poi>().ReverseMap();
             CreateMap<BuildingFeatureViewModel, BuildingFeature>().ReverseMap();
             CreateMap<BuildingFeatureListViewModel, BuildingFeature>().ReverseMap();
            CreateMap<BuildingFeatureViewModel, BuildingFeatureListViewModel>().ReverseMap();

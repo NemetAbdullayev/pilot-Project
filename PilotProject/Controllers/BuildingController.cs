@@ -4,7 +4,9 @@ using BusinessLayer.Abstract.PoiAbstractServices;
 using Dapper;
 using DataAccessLayer.Abstract.DapperInterface;
 using EntityLayer.Concrete.Building;
+using EntityLayer.Concrete.Point;
 using EntityLayer.ViewModels.BuildingsViewModels;
+using EntityLayer.ViewModels.PoiViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -27,15 +29,16 @@ namespace PilotProject.Controllers
     public class BuildingController : ControllerBase
     {
         public readonly IDapperRepository<Building> _abstractDapperRepository;
-
+        public readonly IDapperRepository<Poi> _poiAbstractDapperRepository;
         public readonly IBuildingService _buildingService;
         public readonly IBuildingFeatureService _buildingFeatureService;
         public readonly IMapper _mapper;
 
-        public BuildingController(IBuildingFeatureService buildingFeatureService, IBuildingService buildingService, IPoiPropertiesService propertiesService, IMapper mapper, IDapperRepository<Building> abstractDapperRepository)
+        public BuildingController(IBuildingFeatureService buildingFeatureService, IBuildingService buildingService, IPoiPropertiesService propertiesService, IMapper mapper, IDapperRepository<Building> abstractDapperRepository, IDapperRepository<Poi> poiAbstractDapperRepository)
 
         {
             _abstractDapperRepository = abstractDapperRepository;
+            _poiAbstractDapperRepository = poiAbstractDapperRepository;
             _buildingFeatureService = buildingFeatureService;
             _buildingService = buildingService;
 
@@ -173,8 +176,8 @@ namespace PilotProject.Controllers
 
             string querry = "select *  from \"Poi\" p where ST_Intersects\r\n    (p.\"geometry\",(select b.\"geometry\" from \"Buildings\" b where b.\"Id\"='"+id+"'))";
 
-            var result = _abstractDapperRepository.GetAllItems(querry);
-           
+            var result = _poiAbstractDapperRepository.GetAllItems(querry);
+            List<PoiShowViewModel> poies = _mapper.Map<List<PoiShowViewModel>>(result);
             var opt = new JsonSerializerOptions
             {
                 Converters =
@@ -182,7 +185,7 @@ namespace PilotProject.Controllers
                    new  NetTopologySuite.IO.Converters.GeoJsonConverterFactory()
                }
             };
-            string jsonString = System.Text.Json.JsonSerializer.Serialize(result, opt);
+            string jsonString = System.Text.Json.JsonSerializer.Serialize(poies, opt);
             return Ok(jsonString);
         }
     }
